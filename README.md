@@ -11,6 +11,6 @@
 $ npm config set save=true
 $ npm config set save-exact=true
 
-Here some ```javascript
+```javascript
 const app = express();
 ```
