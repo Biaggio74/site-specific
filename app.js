@@ -7,16 +7,18 @@ const morgan = require('morgan');
 const favicon = require('serve-favicon');
 
 const staticRouter = require('./server/routes/static.js');
+const geoTiffRouter = require('./server/routes/geotiff.js')
 
 //npm packages
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(morgan('dev'));
 app.use(helmet());
+app.use(express.static('client'))
 
 app.set('views', path.join(__dirname, 'client/views/pages'));
 app.set('view engine', 'ejs');
 
-app.use('/', staticRouter);
+app.use('/', [staticRouter, geoTiffRouter]);
 
 const PORT = process.env.PORT || 3000;
 
@@ -33,11 +35,16 @@ app.use((req, res, next) => {
 });
 
 //error handler
-app.use((err, req, res, next) => {
+app.use( (err, req, res, next) => {
   //set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   // render the error page
+  if (res.headersSent) {
+    return next(err);
+  }
   res.status(err.status || 500);
   res.render('error', {error: err});
 });
+
+module.exports = app;

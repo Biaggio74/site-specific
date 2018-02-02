@@ -5,6 +5,7 @@ const expect = require('chai').expect;
 
 //require the buil-in 'assertion' library
 const assert = require('assert');
+
 //create a group of tests about Arrays
 describe('Array ', () => {
   // Within the Array group creating a group of tests for indexOf
@@ -42,4 +43,4 @@ describe('GET /', function(done) {
       //.expect('Content-Length', '15')
       .expect(200, done);
   })
-})
+});
